@@ -29,7 +29,7 @@ const getObject = (req, res) => {
         });
     } else {
         console.log('File not found:', filePath);
-        res.status(500).send('Object not found');
+        res.status(404).send('Object not found');
     }
 };
 
@@ -41,7 +41,14 @@ const putObject = (req, res) => {
     const originalName = file.originalname; // Get the original filename
     const extension = path.extname(originalName); // Get the file extension
     const newFileName = name + extension; // Combine the object name and file extension to create the new filename
-    const filePath = path.join('uploads', bucket, newFileName); // Assumes the objects are stored in the uploads directory under the bucket's name
+    const bucketPath = path.join('uploads', bucket); // Assumes the objects are stored in the uploads directory under the bucket's name
+    const filePath = path.join(bucketPath, newFileName);
+    
+    if (!fs.existsSync(bucketPath)) {
+        res.status(404).send(`Bucket ${bucket} not found`); // Send a 404 response if the bucket doesn't exist
+        return;
+    }
+    
     fs.writeFile(filePath, file.buffer, (err) => {
         if (err) {
             console.error(err);
@@ -52,6 +59,7 @@ const putObject = (req, res) => {
     });
 };
 
+
 const deleteObject = (req, res) => {
     const bucket = req.params.bucket; // Get the bucket name from the URL parameter
     const name = req.params.name; // Get the object name from the URL parameter
@@ -59,16 +67,47 @@ const deleteObject = (req, res) => {
     fs.unlink(filePath, (err) => {
         if (err) {
             console.error(err);
-            res.status(500).send('Object not found'); // Send a 404 response if the object can't be found
+            res.status(404).send('Object not found'); // Send a 404 response if the object can't be found
         } else {
             res.send('Object deleted successfully'); // Send a success response if the object is deleted successfully
         }
     });
 };
 
+const putObjects = async (req, res) => {
+    const bucket = req.params.bucketName;
+    // const names = req.body.names; // Array of object names
+    const files = req.files; // Array of uploaded files
+  
+    const bucketPath = path.join('uploads', bucket);
+  
+    if (!fs.existsSync(bucketPath)) {
+      res.status(404).send(`Bucket ${bucket} not found`);
+      return;
+    }
+  
+    // Write each file to the file system
+    const promises = files.map((file, index) => {
+      const originalName = file.originalname;
+      // const extension = path.extname(originalName);
+      // const newFileName = names[index] + extension;
+      const newFileName = originalName;
+      const filePath = path.join(bucketPath, newFileName);
+      return fs.promises.writeFile(filePath, file.buffer);
+    });
+  
+    try {
+      await Promise.all(promises);
+      res.send('Objects uploaded successfully');
+    } catch (err) {
+      console.error(err);
+      res.status(500).send('Error uploading objects');
+    }
+  };
 module.exports = {
     listObjects: listObjects,
     getObject: getObject,
     putObject: putObject,
-    deleteObject: deleteObject
+    deleteObject: deleteObject,
+    putObjects : putObjects
 };

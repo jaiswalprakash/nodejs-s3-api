@@ -25,24 +25,29 @@ To install and run the web service, follow these steps:
 
 ### create Buckets
 
-To create a bucket, send a POST request to `/buckets/:bucketName`.
+To create a bucket, send a POST request to `/bucket/:bucketName`.
 ### List Buckets
 
 To list the available buckets, send a GET request to `/buckets`. The response will be a JSON array of bucket names.
 
 ### List Objects
 
-To list the objects in a bucket, send a GET request to `/buckets/:bucket`. Replace `:bucket` with the name of the bucket you want to list. The response will be a JSON array of object keys.
+To list the objects in a bucket, send a GET request to `/objects/:bucketName`. Replace `:bucketName` with the name of the bucket you want to list. The response will be a JSON array of object names.
 
 ### Get Object
 
-To get the contents of an object, send a GET request to `/buckets/:bucket/:name`. Replace `:bucket` with the name of the bucket and `:name` with the name of the object you want to retrieve. The response will be the contents of the object.
+To get the contents of an object, send a GET request to `/objects/:bucketName/:ObjectName`. Replace `:bucketName` with the name of the bucket and `:ObjectName` with the name of the object you want to retrieve. The response will be the contents of the object.
 
 ### Put Object
 
-To upload a new object, send a POST request to `/buckets/:bucket/:name`, where `:bucket` is the name of the bucket and `:name` is the name of the object you want to upload. Include the object data as a binary file upload in the request body. The response will be a success message if the object is uploaded successfully.
+To upload a new object, send a POST request to `/objects/:bucketName/:ObjectName`, where `:bucketName` is the name of the bucket and `:ObjectName` is the name of the object you want to upload. Include the object data as a binary file upload in the request body. The response will be a success message if the object is uploaded successfully.
 
 ### Delete Object
 
-To delete an object, send a DELETE request to `/buckets/:bucket/:name`, where `:bucket` is the name of the bucket and `:name` is the name of the object you want to delete. The response will be a success message if the object is deleted successfully.
+To delete an object, send a DELETE request to `/objects/:bucketName/:ObjectName`, where `:bucketName` is the name of the bucket and `:ObjectName` is the name of the object you want to delete. The response will be a success message if the object is deleted successfully.
+
+
+### Put Objects
+
+To upload multiple  new object, send a POST request to `/objects/:bucketName`, where `:bucketName` is the name of the bucket . Include the object data as a binary file upload in the request body. The response will be a success message if the object is uploaded successfully.
 
