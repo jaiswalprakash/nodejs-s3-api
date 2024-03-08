@@ -1,7 +1,6 @@
 const express = require('express');
 const app = express();
-const s3_routes = require('./routes/s3-routes');
-
+const s3_routes = require('./src/routes/s3-routes');
 app.use(express.json()); // Enable parsing of JSON request bodies
 app.use(express.urlencoded({ extended: true })); // Enable parsing of URL-encoded request bodies
 app.use('/', s3_routes); // Mount the routes defined in routes.js at the root URL path

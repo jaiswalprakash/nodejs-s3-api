@@ -18,9 +18,10 @@
   },
   "homepage": "https://github.com/jaiswalprakash/simple-nodejs-s3-api#readme",
   "dependencies": {
+    "axios": "^1.3.5",
+    "exceljs": "^4.3.0",
     "express": "^4.18.2",
     "multer": "^1.4.5-lts.1",
     "nodemon": "^2.0.12"
-
   }
 }

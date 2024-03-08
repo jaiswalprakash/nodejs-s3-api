@@ -5,7 +5,7 @@ const fileUtils = require('../utility/fileUtils');
 
 const listObjects = (req, res) => {
     const bucket = req.params.bucket; // Get the bucket name from the URL parameter
-    const folderPath = path.join('uploads', bucket);
+    const folderPath = path.join('src/uploads', bucket);
     const files = fileUtils.getFiles(folderPath);
     res.json(files); // Send the list of objects as a JSON response
 };
@@ -13,7 +13,7 @@ const listObjects = (req, res) => {
 const getObject = (req, res) => {
     const bucket = req.params.bucket;
     const name = req.params.name;
-    const filePath = path.join('uploads', bucket, name);
+    const filePath = path.join('src/uploads', bucket, name);
     if (fs.existsSync(filePath)) {
         fs.readFile(filePath, (err, data) => {
             if (err) {
@@ -41,7 +41,7 @@ const putObject = (req, res) => {
     const originalName = file.originalname; // Get the original filename
     const extension = path.extname(originalName); // Get the file extension
     const newFileName = name + extension; // Combine the object name and file extension to create the new filename
-    const bucketPath = path.join('uploads', bucket); // Assumes the objects are stored in the uploads directory under the bucket's name
+    const bucketPath = path.join('src/uploads', bucket); // Assumes the objects are stored in the uploads directory under the bucket's name
     const filePath = path.join(bucketPath, newFileName);
     
     if (!fs.existsSync(bucketPath)) {
@@ -63,7 +63,7 @@ const putObject = (req, res) => {
 const deleteObject = (req, res) => {
     const bucket = req.params.bucket; // Get the bucket name from the URL parameter
     const name = req.params.name; // Get the object name from the URL parameter
-    const filePath = path.join('uploads', bucket, name); // Assumes the objects are stored in the uploads directory under the bucket's name
+    const filePath = path.join('src/uploads', bucket, name); // Assumes the objects are stored in the uploads directory under the bucket's name
     fs.unlink(filePath, (err) => {
         if (err) {
             console.error(err);
@@ -79,7 +79,7 @@ const putObjects = async (req, res) => {
     // const names = req.body.names; // Array of object names
     const files = req.files; // Array of uploaded files
   
-    const bucketPath = path.join('uploads', bucket);
+    const bucketPath = path.join('src/uploads', bucket);
   
     if (!fs.existsSync(bucketPath)) {
       res.status(404).send(`Bucket ${bucket} not found`);

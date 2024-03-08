@@ -5,7 +5,7 @@ const path = require('path');
 
 const createBuckets = (req, res) => {
     const bucket =  req.params.bucketName; // Get the bucket name from the URL parameter
-    const filePath = path.join('uploads', bucket); 
+    const filePath = path.join('src/uploads', bucket); 
     // Create the new folder if it doesn't already exist
     if (!fs.existsSync(filePath)) {
         fs.mkdirSync(filePath);
@@ -16,7 +16,7 @@ const createBuckets = (req, res) => {
 };
 const listBuckets = (req, res) => {
     // Path to the folder you want to list subdirectories for
-    const folderPath = path.join('uploads');
+    const folderPath = path.join('src/uploads');
     const subdirectories = fileUtils.getSubdirectories(folderPath);
     res.json(subdirectories); // Send the list of buckets as a JSON response
 };
