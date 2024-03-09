@@ -1,4 +1,7 @@
-node_modules/
+# Ignore the node_modules directory
+node_modules/  
+# Ignore all files in the src/uploads directory
 src/uploads/*
-!src/uploads/.gitkeep
+# Except for src/uploads/.gitkeep file, don't ignore it   
+!src/uploads/.gitkeep   
 

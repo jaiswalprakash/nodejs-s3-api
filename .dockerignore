@@ -1,0 +1,9 @@
+# Exclude the node_modules directory
+node_modules
+
+# Exclude all files in the src/uploads directory
+src/uploads/*
+
+# Include the .gitkeep file in the src/uploads directory
+# This prevents the directory from being empty, as Docker ignores empty directories
+!src/uploads/.gitkeep
