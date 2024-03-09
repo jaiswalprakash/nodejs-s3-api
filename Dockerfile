@@ -1,20 +1,23 @@
 FROM ubuntu
 
-# Install node
+# Install Node.js
 RUN apt-get update && \
     apt-get install -y curl && \
     curl -sL https://deb.nodesource.com/setup_18.x | bash - && \
     apt-get upgrade -y && \
     apt-get install -y nodejs
 
-# Create a directory for your app
+# Set the working directory for the application
 WORKDIR /app
 
-# Copy the entire folder structure
-COPY . .
+# Copy just the package.json and package-lock.json files
+COPY package*.json ./
 
-# Install dependencies
+# Install dependencies based on package.json and package-lock.json
 RUN npm install
 
-# Set entry point
+# Copy the rest of the application code
+COPY . .
+
+# Set the entry point for the application
 ENTRYPOINT [ "node", "app.js" ]
